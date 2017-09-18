@@ -1,0 +1,2 @@
+Longueur de la chaine : 9La chaine contient : 0
+
