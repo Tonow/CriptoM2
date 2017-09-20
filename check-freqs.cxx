@@ -22,6 +22,15 @@ int main( int argc, char** argv )
 {
   string s = readInput( cin );
 
+/** TODO
+  int k = argv[1]; decalage de Cesare
+  int r = argv[2]; saut
+
+  if (k != 0 || r != 0) {
+
+  }
+*/
+
   std::vector<float> frequen( 26 );
   std::vector<float> frequenFR( 26 );
   std::vector<float> frequenRandom( 26 );
@@ -43,7 +52,7 @@ int main( int argc, char** argv )
   cout << "indiceRandom = " << indiceRandom << endl;
   cout << "idc = " << indiceCoincidence << endl;
 
-  if ((indiceFR + indiceRandom / 2) > indiceCoincidence )
+  if (((indiceFR + indiceRandom) / 2) > indiceCoincidence )
   {
     cout<<"\nCe texte parait plutot aleatoire ! "<< endl ;
   }
