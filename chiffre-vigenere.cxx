@@ -1,3 +1,9 @@
+/**
+*Chiffre un texte a l'aide d'une cle
+*
+*exemple d'utilisation --> $ cat texte.txt | ./chiffre-vigenere CLEDUTEXT
+*/
+
 #include <string>
 #include <iostream>
 #include <iomanip>
@@ -6,6 +12,8 @@
 
 
 using namespace std;
+
+
 
 int main( int argc, char** argv )
 {

@@ -31,19 +31,36 @@ string filter_az( const std::string & s )
   return s2.str();
 }
 
+/**
+*@param clair string : le texte a chiffrée
+*@param cle string : la clé de chiffrement
+*@return chiffre string : le texte chiffé
+*
+*la fonction chiffre le texte entré minuscule pour resortire le texte chiffré
+*en majuscule
+*/
 string chiffreVigenere( const std::string & clair,
-           const std::string & cle ){
+                        const std::string & cle )
+{
   ostringstream chiffre( ostringstream::out );
   string claire = filter_az(clair);
   string clee = filter_AZ(cle);
-  for ( unsigned int i = 0; i < claire.size(); ++i ){
+  for ( unsigned int i = 0 ; i < claire.size() ; ++i )
+  {
     char c = claire[i];
     char s = clee[i%clee.size()];
-    if ( ( c >= 'a' ) && ( c <= 'z' ) && ( s >= 'A' ) && ( s <= 'Z' ) && (((c-'a'+'A')+s) <= 'Z'))
-  chiffre << (char) (c-'a'+'A')+s;
-      else if  ( ((c-'a'+'A')+s) > 'Z' )
-  chiffre << (char) ((((c-'a'+'A')+s) %  26 )+ 'A');
-    }
+
+    if (  ( c >= 'a' ) &&
+          ( c <= 'z' ) &&
+          ( s >= 'A' ) &&
+          ( s <= 'Z' ) &&
+          (((c-'a'+'A')+s) <= 'Z')
+        )
+       chiffre << (char) (c-'a'+'A')+s;
+
+    else if  ( ((c-'a'+'A')+s) > 'Z' )
+      chiffre << (char) ((((c-'a'+'A')+s) %  26 )+ 'A');
+  }
   return chiffre.str();
 
 }

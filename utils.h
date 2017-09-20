@@ -17,8 +17,8 @@ std::string subtext2( const std::string & s, int every, int shift );
    La clé est écrite en majuscule ("ADEF..DB").
    La sortie est en majuscule.
 */
-std::string chiffreVigenere( const std::string & clair, 
-			     const std::string & cle );
+std::string chiffreVigenere( const std::string & clair,
+                             const std::string & cle );
 
 /**
    Le chiffre en majuscule.
@@ -29,10 +29,7 @@ std::string dechiffreVigenere( const std::string & chiffre,
                                const std::string & cle );
 
 
-/**
- * @return la fréquence des lettres 'A' à 'Z' (0='A', 25='Z').
- */
-std::vector<float> frequencies( const std::string & s );
+
 /**
  * @return la fréquence des digrammes 'AA' à 'ZZ' (0='AA', 675='ZZ') en lisant 2 lettres par 2 lettres..
  */
@@ -41,8 +38,9 @@ std::vector<float> frequencies2( const std::string & s );
 float coincidence( const std::vector<float> & f );
 
 float coincidenceMutuelle( const std::vector<float> & f1,
-			   const std::vector<float> & f2,
-			   unsigned int shift2 = 0 );
+	   const std::vector<float> & f2,
+	   unsigned int shift2 = 0 );
+                               
 float coincidence2( const std::vector<float> & f );
 
 float coincidenceMutuelle2( const std::vector<float> & f1,

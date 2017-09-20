@@ -6,7 +6,9 @@
 using namespace std;
 
 float freqLettresFr[26] =
-  { 0.0840, 0.0106, 0.0303, 0.0418, 0.1726, 0.0112, 0.0127, 0.0092, 0.0734, 0.0031, 0.0005, 0.0601, 0.0296, 0.0713, 0.0526, 0.0301, 0.0099, 0.0655, 0.0808, 0.0707, 0.0574, 0.0132, 0.0004, 0.0045, 0.0030, 0.0012 };
+  { 0.0840, 0.0106, 0.0303, 0.0418, 0.1726, 0.0112, 0.0127, 0.0092, 0.0734,
+    0.0031, 0.0005, 0.0601, 0.0296, 0.0713, 0.0526, 0.0301, 0.0099, 0.0655,
+    0.0808, 0.0707, 0.0574, 0.0132, 0.0004, 0.0045, 0.0030, 0.0012 };
 
 float freqDigrammesFr[676];
 
@@ -47,15 +49,35 @@ int computeDigrammesFr( const std::string & fname )
 }
 
 /**
-* @param s une chaîne de caractères chiffrée (A-Z).
-* @return la fréquence des lettres 'A' à 'Z' (0='A', 25='Z').
+* @param s string : une chaîne de caractères chiffrée (A-Z).
+* @return freqLettre vector : la fréquence des lettres 'A' à 'Z' (0='A', 25='Z').
 */
-std::vector<float> frequencies( const std::string & s ){
-  std::vector<float> ff( 26 );
-  for ( unsigned int i = 0; i < s.size();i++){
-    ff[(s[i]-'A')] += 1.0 / s.size();
+std::vector<float> frequencies( const std::string & s )
+{
+  std::vector<float> freqLettre ( 26 );
+  for ( unsigned int i=0 ; i < s.size() ; i++)
+  {
+    // nombre de fois ou on trouve la  lettre / taille du texte
+    freqLettre[(s[i]-'A')] += 1.0 / s.size();
   }
-  return ff;
+  return freqLettre;
+}
+
+
+
+/**
+* @param frequences vector<float> ensemble de frequence d'apparition des lettre
+*                                 du chiffre
+* @param size int la taille du texte
+* @return indice float  indice de coincidence 
+*/
+float indiceDeCoincidence( std::vector<float> frequences , int size){
+  float indice = 0.0;
+  for (unsigned int i= 0 ; i< frequences.size() ; i++){
+    indice += frequences[i] * size * ((frequences[i] * size) - 1.0 );
+  }
+  indice = (1.0 / (size * (size -1.0 ) )) * indice ;
+  return indice;
 }
 
 /**
