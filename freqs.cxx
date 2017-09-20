@@ -39,11 +39,23 @@ int computeDigrammesFr( const std::string & fname )
       nb += freq;
       i++;
     }
-  cout << "Found " << i << " digram frequencies with total " << nb 
+  cout << "Found " << i << " digram frequencies with total " << nb
 	    << endl;
   for ( i = 0; i < 676; i++ )
     freqDigrammesFr[ i ] /= (float) nb;
   return 0;
+}
+
+/**
+* @param s une chaîne de caractères chiffrée (A-Z).
+* @return la fréquence des lettres 'A' à 'Z' (0='A', 25='Z').
+*/
+std::vector<float> frequencies( const std::string & s ){
+  std::vector<float> ff( 26 );
+  for ( unsigned int i = 0; i < s.size();i++){
+    ff[(s[i]-'A')] += 1.0 / s.size();
+  }
+  return ff;
 }
 
 /**
@@ -89,7 +101,7 @@ std::vector<float> frequenciesRandom()
 {
   std::vector<float> ff( 26 );
   for ( unsigned int i = 0; i < ff.size(); ++i )
-    ff[ i ] = 1.0 / 26.0; 
+    ff[ i ] = 1.0 / 26.0;
   return ff;
 }
 
@@ -113,8 +125,6 @@ std::vector<float> frequenciesRandomDigrams()
 {
   std::vector<float> ff( 26*26 );
   for ( unsigned int i = 0; i < ff.size(); ++i )
-    ff[ i ] = 1.0 / (26.0*26.0); 
+    ff[ i ] = 1.0 / (26.0*26.0);
   return ff;
 }
-
-

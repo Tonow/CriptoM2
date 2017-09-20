@@ -1,5 +1,5 @@
 # ajoutez vos programmes ci-dessous
-PROGS_SRC=test-freqs.cxx filter-az.cxx chiffre-vigenere.cxx
+PROGS_SRC=test-freqs.cxx filter-az.cxx chiffre-vigenere.cxx check-freqs.cxx
 
 SRC=freqs.cxx utils.cxx
 OBJ=${SRC:.cxx=.o}
@@ -16,6 +16,9 @@ filter-az: filter-az.cxx ${OBJ} ${HEADERS}
 	g++ ${CXXFLAGS} $< ${OBJ} -o $@
 
 chiffre-vigenere: chiffre-vigenere.cxx ${OBJ} ${HEADERS}
+	g++ ${CXXFLAGS} $< ${OBJ} -o $@
+
+check-freqs: check-freqs.cxx ${OBJ} ${HEADERS}
 	g++ ${CXXFLAGS} $< ${OBJ} -o $@
 
 %.o: %.cxx %.h
