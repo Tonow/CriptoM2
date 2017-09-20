@@ -9,8 +9,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <iomanip>
-#include "utils.h"
 #include  <math.h>
+
+#include "utils.h"
 #include "freqs.h"
 
 using namespace std;
@@ -22,14 +23,26 @@ int main( int argc, char** argv )
 {
   string s = readInput( cin );
 
-/** TODO
-  int k = argv[1]; decalage de Cesare
-  int r = argv[2]; saut
+  cout << "argc = " << argc << endl;
+  cout << "argv[1] = " << argv[1] << endl;
+  cout << "argv[2] = " << argv[2] << "\n" << endl;
 
-  if (k != 0 || r != 0) {
+  // ######### TODO #########
+  // Je ne comprend pas cela n'a pas l'air de passer dans ce if
+  // par exemple avec cette requette :
+  // cat lafontaine-az.txt | ./chiffre-vigenere AZERTY | ./check-freqs 6 0
+  if (argc <= 1) {
+      int k = atoi(argv[1]); //decalage de Cesare
+      int r = atoi(argv[2]); //saut
 
-  }
-*/
+      cout << "decalage de Cesare = " << k << endl;
+      cout << "saut\n = " << r << endl;
+
+      s = subtext(s, r, k);
+
+      cout << "\n" << s << "\n" << endl;
+
+  } // #####################
 
   std::vector<float> frequen( 26 );
   std::vector<float> frequenFR( 26 );
