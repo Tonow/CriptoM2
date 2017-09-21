@@ -40,27 +40,28 @@ int main( int argc, char** argv )
        << "\n##############################################\n"
        << "\n\n" << endl;
 
-  for (unsigned int saut = 1; saut <= s.size()/10 ; saut++) {
+  for (int saut = 1; saut <= int(s.size()/10) ; saut++) {
 
-    //TODO : Probleme les saut ne vont pas jusqu'a s.size()/10 ?????
+    string subTextATraiter = subtext(s, saut, 0);
 
-    cout << "saut = " << saut << endl;
-
-    s = subtext(s, saut, 0);
-
-    frequen = frequencies(s);
+    frequen = frequencies(subTextATraiter);
 
     float indiceCoincidence = indiceDeCoincidence(frequen , s.size()) ;
 
+    /*DEBUG
+    cout << "saut = " << saut << endl;
     cout << "indiceCoincidence = " << indiceCoincidence << endl;
     cout << "-- abs(indiceFR - indiceCoincidence) = " << fabs (indiceFR - indiceCoincidence) << endl;
     cout << "-- abs(indiceFR - bestIndiceCoincidence) = " << fabs (indiceFR - bestIndiceCoincidence) <<"\n" << endl;
+    */
 
+    // On test si l'indice est bien plus proche du francais que le precedant
     if (fabs(indiceFR - indiceCoincidence) < fabs(indiceFR - bestIndiceCoincidence))
     {
         bestIndiceCoincidence = indiceCoincidence;
         bestSaut = saut;
         bestFrequen = frequen;
+        cout << "bestIndiceCoincidence = " << bestIndiceCoincidence << endl;
         cout << "--> bestSaut = " << bestSaut <<"\n\n"<< endl;
     }
   }
