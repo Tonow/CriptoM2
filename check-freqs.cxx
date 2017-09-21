@@ -3,6 +3,7 @@
  *et donne l'indice de corélation
  *
  *exemple d'utilisation --> $ cat texte.txt | ./check-freqs
+ *                      --> $ cat lafontaine-az.txt | ./chiffre-vigenere AZERTY | ./check-freqs 6 0
  */
 #include <string>
 #include <iostream>
@@ -24,23 +25,26 @@ int main( int argc, char** argv )
   string s = readInput( cin );
 
   cout << "argc = " << argc << endl;
-  cout << "argv[1] = " << argv[1] << endl;
-  cout << "argv[2] = " << argv[2] << "\n" << endl;
+
+  //cout << "\nle texte est :\n = " << s << "\n" << endl;
+
 
   // ######### TODO #########
   // Je ne comprend pas cela n'a pas l'air de passer dans ce if
   // par exemple avec cette requette :
   // cat lafontaine-az.txt | ./chiffre-vigenere AZERTY | ./check-freqs 6 0
-  if (argc <= 1) {
-      int k = atoi(argv[1]); //decalage de Cesare
-      int r = atoi(argv[2]); //saut
+  if (argc > 1) {
 
-      cout << "decalage de Cesare = " << k << endl;
-      cout << "saut\n = " << r << endl;
+    cout << "argv[1] = " << argv[1] << endl;
+    cout << "argv[2] = " << argv[2] << "\n" << endl;
 
-      s = subtext(s, r, k);
+    int r = atoi(argv[1]); //decalage de Cesare
+    int k = atoi(argv[2]); //saut
 
-      cout << "\n" << s << "\n" << endl;
+    cout << "decalage de Cesare = " << k << endl;
+    cout << "saut = " << r << "\n" << endl;
+
+    s = subtext(s, r, k);
 
   } // #####################
 
