@@ -26,27 +26,19 @@ int main( int argc, char** argv )
 
   cout << "argc = " << argc << endl;
 
-  //cout << "\nle texte est :\n = " << s << "\n" << endl;
 
+  //Au cas ou deux argument sont passer au paramettre alors on test
+  //l'indice de coincidence sur des sous chaine du texte
+  if (argc >= 3) {
 
-  // ######### TODO #########
-  // Je ne comprend pas cela n'a pas l'air de passer dans ce if
-  // par exemple avec cette requette :
-  // cat lafontaine-az.txt | ./chiffre-vigenere AZERTY | ./check-freqs 6 0
-  if (argc > 1) {
-
-    cout << "argv[1] = " << argv[1] << endl;
-    cout << "argv[2] = " << argv[2] << "\n" << endl;
+    cout << "\nr: saut               - argv[1] = " << argv[1] << endl;
+    cout << "k: decalage de Cesare - argv[2] = " << argv[2] << "\n" << endl;
 
     int r = atoi(argv[1]); //decalage de Cesare
     int k = atoi(argv[2]); //saut
 
-    cout << "decalage de Cesare = " << k << endl;
-    cout << "saut = " << r << "\n" << endl;
-
     s = subtext(s, r, k);
-
-  } // #####################
+  }
 
   std::vector<float> frequen( 26 );
   std::vector<float> frequenFR( 26 );
@@ -69,12 +61,19 @@ int main( int argc, char** argv )
   cout << "indiceRandom = " << indiceRandom << endl;
   cout << "idc = " << indiceCoincidence << endl;
 
-  if (((indiceFR + indiceRandom) / 2) > indiceCoincidence )
+  if (((indiceFR + indiceRandom) / 2) > indiceCoincidence &&
+        indiceCoincidence > indiceRandom)
   {
     cout<<"\nCe texte parait plutot aleatoire ! "<< endl ;
   }
-  else {
+  else if (((indiceFR + indiceRandom) / 2) < indiceCoincidence &&
+        indiceCoincidence < indiceFR)
+  {
     cout << "\nCe texte semble francais ! "<< endl ;
+  }
+  else
+  {
+    cout << "\n!!! indiceCoincidence mal calculer !!! "<< endl ;
   }
 
   return 0;
