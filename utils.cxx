@@ -105,7 +105,6 @@ bool itIsRandomOrFR ( const string & s )
     std::vector<float> frequenFR( 26 );
     std::vector<float> frequenRandom( 26 );
     std::vector<float> frequen( 26 );
-    std::vector<float> bestFrequen( 26 );
 
     frequenFR = frequenciesFrench();
     frequenRandom = frequenciesRandom();
