@@ -40,7 +40,7 @@ float coincidence( const std::vector<float> & f );
 float coincidenceMutuelle( const std::vector<float> & f1,
 	   const std::vector<float> & f2,
 	   unsigned int shift2 = 0 );
-                               
+
 float coincidence2( const std::vector<float> & f );
 
 float coincidenceMutuelle2( const std::vector<float> & f1,
@@ -48,3 +48,12 @@ float coincidenceMutuelle2( const std::vector<float> & f1,
                             unsigned int shift2 = 0 );
 
 #endif /* _UTILS_H_ */
+
+/*
+* @param s string le texte d'entrer
+* @return bool vrais cela est plus proche du francais que du random
+*
+*la fonction prend un texte calcule sont indice de coincidence et test si
+*ce derniere est plus proche du frncais que du random
+*/
+bool itIsRandomOrFR ( const std::string & s );

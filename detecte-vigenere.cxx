@@ -16,23 +16,11 @@
 
 using namespace std;
 
-float indiceFR = 0.0780531 ;
-float indiceRandom = 0.0384615 ;
-
 int main( int argc, char** argv )
 {
   string s = readInput( cin );
 
-  std::vector<float> frequenFR( 26 );
-  std::vector<float> frequenRandom( 26 );
-  std::vector<float> frequen( 26 );
-  std::vector<float> bestFrequen( 26 );
-
-  frequenFR = frequenciesFrench();
-  frequenRandom = frequenciesRandom();
-
-  float bestIndiceCoincidence = 0;
-  int bestSaut = 0;
+  bool EstFR = false;
 
   cout << "\n##############################################\n"
        << "Taille du texte = " << s.size()
@@ -42,11 +30,28 @@ int main( int argc, char** argv )
 
   for (int saut = 1; saut <= int(s.size()/10) ; saut++) {
 
-    string subTextATraiter = subtext(s, saut, 0);
+    int nb_fr = 0;
 
-    frequen = frequencies(subTextATraiter);
+    for (int shift = 0; shift <= saut-1; shift++) {
 
-    float indiceCoincidence = indiceDeCoincidence(frequen , s.size()) ;
+        string subTextATraiter = subtext(s, saut, shift);
+
+        EstFR = itIsRandomOrFR (subTextATraiter);
+
+        if (EstFR) {
+          nb_fr++;
+        }
+
+        if (nb_fr == saut) {
+          /* code */
+          cout << "--> Semble etre du francais pour saut : " << saut
+          << " shift : " << shift+1 << endl;
+        }
+
+    }
+  }
+
+
 
     /*DEBUG
     cout << "saut = " << saut << endl;
@@ -56,6 +61,9 @@ int main( int argc, char** argv )
     */
 
     // On test si l'indice est bien plus proche du francais que le precedant
+
+
+    /*
     if (fabs(indiceFR - indiceCoincidence) < fabs(indiceFR - bestIndiceCoincidence))
     {
         bestIndiceCoincidence = indiceCoincidence;
@@ -63,6 +71,14 @@ int main( int argc, char** argv )
         bestFrequen = frequen;
         cout << "bestIndiceCoincidence = " << bestIndiceCoincidence << endl;
         cout << "--> bestSaut = " << bestSaut <<"\n\n"<< endl;
+
+        std::vector<char> cle( saut );
+
+        for (size_t lettre = 0; lettre < 25; lettre++) {
+            //on cherche le caractere c entre A et Z qui maximise la coincidence mutuelle avec freq_fr
+
+            cle[lettre] =
+        }
     }
   }
 
@@ -73,27 +89,8 @@ int main( int argc, char** argv )
     //affiche la frequance de chaque lettre
     cout << (char)('A'+i) << " = " << bestFrequen[i] << endl;
   }
+  */
 
-
-  cout << "\nidcFrance = " << indiceFR << endl;
-  cout << "indiceRandom = " << indiceRandom << endl;
-  cout << "idc = " << bestIndiceCoincidence << endl;
-  cout << "bestSaut = " << bestSaut << endl;
-
-  if (((indiceFR + indiceRandom) / 2) > bestIndiceCoincidence &&
-        bestIndiceCoincidence > indiceRandom)
-  {
-    cout<<"\nCe texte parait plutot aleatoire ! "<< endl ;
-  }
-  else if (((indiceFR + indiceRandom) / 2) < bestIndiceCoincidence &&
-        bestIndiceCoincidence < indiceFR)
-  {
-    cout << "\nCe texte semble francais ! "<< endl ;
-  }
-  else
-  {
-    cout << "\n!!! indiceCoincidence mal calculer !!! "<< endl ;
-  }
 
   return 0;
 }
