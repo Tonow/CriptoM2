@@ -40,7 +40,7 @@ int main( int argc, char** argv )
        << "Taille du texte = " << s.size()
        << "  --   Nb de saut = " << s.size()/10
        << "\n##############################################\n"
-       << "\n\n" << endl;
+       << "\n" << endl;
 
   for (int saut = 1; saut <= int(s.size()/10) ; saut++)
   // recherche de la bonne taille de cle
@@ -67,43 +67,65 @@ int main( int argc, char** argv )
     // Pour que pour tout les saut on tombe sur un indice de coincidence
     //qui corresponde au francais
     {
-      cout << "--> Semble etre du francais pour saut : " << saut << endl;
+      cout << "\n\n--> Semble etre du francais pour saut : " << saut << endl;
 
       std::vector<char> cle( saut );
 
-      for (int lettreCle = 0; lettreCle < saut - 1; lettreCle++)
+      for (int lettreCle = 0; lettreCle < saut; lettreCle++)
       // On cherche donc la bonne cle en testant les 26 lettre de A a Z
       // qui maximise la coincidence mutuelle avec indiceFR
       {
-        float bestIndiceCoincidence = 0;
         //valeur qui devra etre de plus en plus prche de indiceFR
-
-        for (int lettreAlphabet = 0; lettreAlphabet < 26; lettreAlphabet++)
-        {
-
-          string subTextCheckLettre = subtext(s, saut, lettreAlphabet);
+        int max = 0;
+          string subTextCheckLettre = subtext(s, saut, lettreCle);
           frequen = frequencies(subTextCheckLettre);
-          float indiceCoincidence = indiceDeCoincidence(frequen , s.size()) ;
 
-          if (fabs(indiceFR - indiceCoincidence) < fabs(indiceFR - bestIndiceCoincidence))
-          {
-            bestIndiceCoincidence = indiceCoincidence;
-            cle[lettreCle] = (char) (lettreAlphabet + 'A');
-            std::cout << "saut : " << saut
-             << " indiceCoincidence actuelle = " << bestIndiceCoincidence <<
-            " lettre choisi : " << (char) (lettreAlphabet + 'A') << '\n';
-          }
+          //DEBUG
+          /*
+          for ( int i = 0; i < 26; i++ )
+           {
+             //affiche la frequance de chaque lettre
+             cout << (char)('A'+i) << " = " << frequen[i] << endl;
+           }
+           */
+
+          for ( int lettreTester = 0; lettreTester < 26; lettreTester++ )
+          //Calcule la lettre qui a la  frequence max donc qui devrait etre E
+           {
+            if(frequen[lettreTester]>frequen[max])
+            //'E' elle est la lettre avec la frequence max
+            {
+              max=lettreTester;
+            }
+
+           }
+           // cas de la fin de l'alphabet pour ne pas se retrouver evec des signes
+           if (max < 4)
+           {
+              max = (max + 26);
+            }
+
+            // Decalage de l'alphabet (comme pour un chiffre de Cesare)
+            cle[lettreCle] = (char) ('A' + max - 4);
+
+            // DEBUG
+            /*
+            std::cout << "position : " << lettreCle << " lettre " << (char) ('A' + max - 4 )
+            << " max = " << max << " frequance : " << frequen[max] << '\n';
+            */
+
+
         }
-      }
+
 
       // ######## Affiche la clé
-      for ( int i = 0; i < saut; i++ )
+      for ( int clePosition = 0; clePosition < saut; clePosition++ )
       {
-        //affiche la frequance de chaque lettre
-        cout << "la " << i << " eme lettre = " << cle[i] << endl;
+        cout << "la " << clePosition << " eme lettre = " << cle[clePosition] << endl;
       }
       // ######## FIN Affiche la clé
 
+      break;
     }
   }
   return 0;
