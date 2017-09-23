@@ -25,6 +25,9 @@ float indiceRandom = 0.0384615 ;
 int main( int argc, char** argv )
 {
   string s = readInput( cin );
+  bool reponse = false;
+
+  //std::cout << "le texte est :\n" << s << '\n';
 
   std::vector<float> frequenFR( 26 );
   std::vector<float> frequenRandom( 26 );
@@ -67,6 +70,7 @@ int main( int argc, char** argv )
     // Pour que pour tout les saut on tombe sur un indice de coincidence
     //qui corresponde au francais
     {
+      reponse = true;
       cout << "\n\n--> Semble etre du francais pour saut : " << saut << endl;
 
       std::vector<char> cle( saut );
@@ -75,45 +79,51 @@ int main( int argc, char** argv )
       // On cherche donc la bonne cle en testant les 26 lettre de A a Z
       // qui maximise la coincidence mutuelle avec indiceFR
       {
-        //valeur qui devra etre de plus en plus prche de indiceFR
-        int max = 0;
-          string subTextCheckLettre = subtext(s, saut, lettreCle);
-          frequen = frequencies(subTextCheckLettre);
 
-          //DEBUG
-          /*
-          for ( int i = 0; i < 26; i++ )
+        string subTextCheckLettre = subtext(s, saut, lettreCle);
+        frequen = frequencies(subTextCheckLettre);
+
+        float bestSommeFrequanceMutuel = 10.0;
+        int meilleurLettre = 0;
+
+        //DEBUG
+        /*
+        for ( int i = 0; i < 26; i++ )
+         {
+           //affiche la frequance de chaque lettre
+           cout << (char)('A'+i) << " = " << frequen[i]  << " Fr francais : "<< freqN(i)
+           << " diff : "<< fabs(freqN(i) - frequen[i]) << endl;
+         }
+         */
+
+
+         //Calcule la differance de frequance pour toute les lettre avec celle
+         // du francais
+         for ( int lettreTester = 0; lettreTester < 26; lettreTester++ )
+         {
+           float differanceFrequanceMutuelTest = 0;
+           for (int valeurTest = 0; valeurTest < 26; valeurTest++)
            {
-             //affiche la frequance de chaque lettre
-             cout << (char)('A'+i) << " = " << frequen[i] << endl;
+             // pour chaque frequance des lettre en francais calcule la diffence a la frequance
+             // avec la lettre tester
+             differanceFrequanceMutuelTest = differanceFrequanceMutuelTest + fabs(freqN(valeurTest) - frequen[(lettreTester + valeurTest)%26]);
            }
-           */
 
-          for ( int lettreTester = 0; lettreTester < 26; lettreTester++ )
-          //Calcule la lettre qui a la  frequence max donc qui devrait etre E
-           {
-            if(frequen[lettreTester]>frequen[max])
-            //'E' elle est la lettre avec la frequence max
-            {
-              max=lettreTester;
-            }
+          //Si la differace de frequence est la plus faible alors on a bien decaler
+          if(bestSommeFrequanceMutuel > differanceFrequanceMutuelTest)
+          {
+            bestSommeFrequanceMutuel = differanceFrequanceMutuelTest;
+            meilleurLettre = lettreTester;
+          }
 
-           }
-           // cas de la fin de l'alphabet pour ne pas se retrouver evec des signes
-           if (max < 4)
-           {
-              max = (max + 26);
-            }
+         }
 
-            // Decalage de l'alphabet (comme pour un chiffre de Cesare)
-            cle[lettreCle] = (char) ('A' + max - 4);
+          // Decalage de l'alphabet (comme pour un chiffre de Cesare)
+          cle[lettreCle] = (char) ('A' + meilleurLettre);
 
-            // DEBUG
-            /*
-            std::cout << "position : " << lettreCle << " lettre " << (char) ('A' + max - 4 )
-            << " max = " << max << " frequance : " << frequen[max] << '\n';
-            */
-
+          // DEBUG
+          std::cout << "position : " << lettreCle << " lettre " << (char) ('A' + meilleurLettre )
+          << " somme frequence mutuel : " << bestSommeFrequanceMutuel << "\n\n";
 
         }
 
@@ -121,12 +131,15 @@ int main( int argc, char** argv )
       // ######## Affiche la clé
       for ( int clePosition = 0; clePosition < saut; clePosition++ )
       {
-        cout << "la " << clePosition << " eme lettre = " << cle[clePosition] << endl;
+        cout << "--> la " << clePosition << " eme lettre de la cle = " << cle[clePosition] << endl;
       }
       // ######## FIN Affiche la clé
 
       break;
     }
+  }
+  if (reponse == false) {
+    std::cout << "Desole la cle n'a pas ete trouver" << '\n';
   }
   return 0;
 }
