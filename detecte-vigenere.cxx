@@ -1,8 +1,10 @@
 /**
- *TODO
+ *Prend un texte chiffrer en entrer et donne la cle de vigenere si il y en a
+ *une en sortie
  *
- *exemple d'utilisation --> $ cat texte.txt | ./detecte-vigenere
- *                      --> $ cat lafontaine-az.txt | ./chiffre-vigenere AZERTY | ./detecte-vigenere
+ *exemple d'utilisation
+ *      --> $ cat texte.txt | ./detecte-vigenere
+ *      --> $ cat lafontaine-az.txt | ./chiffre-vigenere AZERTY | ./detecte-vigenere
  */
 #include <string>
 #include <iostream>
@@ -41,40 +43,47 @@ int main( int argc, char** argv )
        << "\n\n" << endl;
 
   for (int saut = 1; saut <= int(s.size()/10) ; saut++)
+  // recherche de la bonne taille de cle
   {
 
     int nb_fr = 0;
 
     for (int shift = 0; shift <= saut-1; shift++)
+    // recherche avec tout les shifts possible
     {
 
       string subTextATraiter = subtext(s, saut, shift);
 
+      // tout le traitement sur la chaine
+      // pour savoir si elle semble aleatoire ou proche du fr
       EstFR = itIsRandomOrFR (subTextATraiter);
 
       if (EstFR) {
-        nb_fr++;
+        nb_fr++; // ce shift semble corresponde a du francais
       }
     }
 
-    if (nb_fr == saut)
+    if (nb_fr == saut) // il est autement probalble qu'on ai la bonne clé
+    // Pour que pour tout les saut on tombe sur un indice de coincidence
+    //qui corresponde au francais
     {
-      /* code */
       cout << "--> Semble etre du francais pour saut : " << saut << endl;
 
       std::vector<char> cle( saut );
 
       for (int lettreCle = 0; lettreCle < saut - 1; lettreCle++)
+      // On cherche donc la bonne cle en testant les 26 lettre de A a Z
+      // qui maximise la coincidence mutuelle avec indiceFR
       {
-        //on cherche le caractere c entre A et Z qui maximise la coincidence mutuelle avec freq_fr
         float bestIndiceCoincidence = 0;
+        //valeur qui devra etre de plus en plus prche de indiceFR
 
         for (int lettreAlphabet = 0; lettreAlphabet < 26; lettreAlphabet++)
         {
 
           string subTextCheckLettre = subtext(s, saut, lettreAlphabet);
           frequen = frequencies(subTextCheckLettre);
-          float indiceCoincidence = indiceDeCoincidence(frequen , subTextCheckLettre.size()) ;
+          float indiceCoincidence = indiceDeCoincidence(frequen , s.size()) ;
 
           if (fabs(indiceFR - indiceCoincidence) < fabs(indiceFR - bestIndiceCoincidence))
           {
@@ -99,38 +108,3 @@ int main( int argc, char** argv )
   }
   return 0;
 }
-
-
-
-    /*DEBUG
-    cout << "saut = " << saut << endl;
-    cout << "indiceCoincidence = " << indiceCoincidence << endl;
-    cout << "-- abs(indiceFR - indiceCoincidence) = " << fabs (indiceFR - indiceCoincidence) << endl;
-    cout << "-- abs(indiceFR - bestIndiceCoincidence) = " << fabs (indiceFR - bestIndiceCoincidence) <<"\n" << endl;
-    */
-
-    // On test si l'indice est bien plus proche du francais que le precedant
-
-
-    /*
-    if (fabs(indiceFR - indiceCoincidence) < fabs(indiceFR - bestIndiceCoincidence))
-    {
-        bestIndiceCoincidence = indiceCoincidence;
-        bestSaut = saut;
-        bestFrequen = frequen;
-        cout << "bestIndiceCoincidence = " << bestIndiceCoincidence << endl;
-        cout << "--> bestSaut = " << bestSaut <<"\n\n"<< endl;
-
-
-
-        for (size_t lettre = 0; lettre < 25; lettre++) {
-            //on cherche le caractere c entre A et Z qui maximise la coincidence mutuelle avec freq_fr
-
-            cle[lettre] =
-        }
-    }
-  }
-
-
-
-}*/
