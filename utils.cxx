@@ -89,6 +89,16 @@ string subtext( const string & s, int every, int shift )
    return s2.str();
 }
 
+string subtextDigram( const string & s, int every, int shift )
+{
+  ostringstream s2( ostringstream::out );
+  for ( unsigned int i = shift; i < (s.size() -1 ); i += (every +1) )
+  {
+    s2 << s[ i ]<<s[i+1];
+  }
+  return s2.str();
+}
+
 
 /*
 * @param s string le texte d'entrer
@@ -121,6 +131,66 @@ bool itIsRandomOrFR ( const string & s )
     */
 
     if (((indiceFR + indiceRandom) / 2) > indiceCoincidence)
+    {
+      //cout<<"\nSemble aleatoire"<< endl ;
+      return false;
+    }
+    else
+    {
+      //cout << "\n--> Ce texte semble francais ! "<< endl ;
+      return true;
+    }
+}
+
+
+/*
+* @param s string le texte d'entrer
+* @return bool vrais cela est plus proche du francais que du random
+*
+*la fonction prend un texte calcule sont indice de coincidence et test si
+*ce derniere est plus proche du frncais que du random
+*/
+bool itIsRandomOrFrDigramm ( const string & s )
+{
+    /*int digrafile = computeDigrammesFr("digrammes.txt");
+    if (digrafile == 1) {
+        std::cout << "!! ATTENTION fichier frequance digrammes non trouver" << '\n';
+        return false;
+    }*/
+
+    float indiceRandomDigramm = 1/676.0 ; //0,00147929
+    float indiceFRDigramm = 0.00895381 ; //0.00895381 trouver grace a la compilation
+
+    std::vector<float> frequenciesDigramsFR( 676 );
+    std::vector<float> frequenciesDigramsRAND( 676 );
+    std::vector<float> frequenDigram( 676 );
+
+    frequenciesDigramsFR = frequenciesFrenchDigrams();
+    frequenciesDigramsRAND = frequenciesRandomDigrams();
+
+    /*for ( int i = 0; i < 676; i++ )
+     {
+       //affiche la frequance de chaque lettre
+       cout << (char)('A'+i) << " = " << frequenciesDigramsFR[i] << endl;
+     }*/
+
+    //std::cout << "### avant frequenDigram " << '\n';
+    frequenDigram = frequenciesDigrams(s);
+    /* DEBUG//std::cout << "frequenDigram OK " << '\n';
+    for (int i = 0; i < 676; i++) {
+      std::cout << i << "frequance : " << (float) frequenDigram[i] << '\n';
+    }
+    */
+
+    /*
+    float indiceFRDigramm = indiceDeCoincidenceSommeFreqCarre(frequenciesDigramsFR) ;
+    std::cout << "indiceFRDigramm : " << indiceFRDigramm << '\n';
+    */
+    float indiceCoincidenceDigramm = indiceDeCoincidence(frequenDigram , s.size()) ;
+    std::cout << "indiceCoincidenceDigramm : " << indiceCoincidenceDigramm << '\n';
+
+    if (((indiceFRDigramm + indiceRandomDigramm) / 2) > indiceCoincidenceDigramm
+        && (((indiceFRDigramm + indiceRandomDigramm) / 10) + indiceFRDigramm) < indiceCoincidenceDigramm )
     {
       //cout<<"\nSemble aleatoire"<< endl ;
       return false;

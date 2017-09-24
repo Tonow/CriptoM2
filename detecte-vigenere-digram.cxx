@@ -18,45 +18,53 @@
 
 using namespace std;
 
-float indiceFR = 0.0780531 ;
-float indiceRandom = 0.0384615 ;
-
 
 int main( int argc, char** argv )
 {
   string s = readInput( cin );
   bool reponse = false;
 
-  //std::cout << "le texte est :\n" << s << '\n';
+  std::cout << "le texte est :\n" << s << '\n';
 
   std::vector<float> frequen( 26 );
 
   bool EstFR = false;
+  bool EstDigramFR = false;
 
   cout << "\n##############################################\n"
        << "Taille du texte = " << s.size()
-       << "  --   Nb de saut = " << s.size()/10
+       << "  --   Nb de saut = " << s.size()/5
        << "\n##############################################\n"
        << "\n" << endl;
 
-  for (int saut = 1; saut <= int(s.size()/10) ; saut++)
+  for (unsigned int saut = 1; saut <= ((unsigned int) (s.size()/5)) ; saut++)
   // recherche de la bonne taille de cle
   {
+    std::cout << "\nSaut : " << saut << '\n';
 
-    int nb_fr = 0;
+    unsigned int nb_fr = 0;
 
-    for (int shift = 0; shift <= saut-1; shift++)
+    for (unsigned int shift = 0; shift <= saut-1; shift++)
     // recherche avec tout les shifts possible
     {
+      std::cout << "Saut : " << saut << " shift : " << shift << '\n';
 
       string subTextATraiter = subtext(s, saut, shift);
+      //std::cout << "subtext OK" << '\n';
+      string subTextDigramATraiter = subtextDigram(s, saut, shift);
+      //std::cout << "subtextDigram OK" << '\n';
+
 
       // tout le traitement sur la chaine
       // pour savoir si elle semble aleatoire ou proche du fr
       EstFR = itIsRandomOrFR (subTextATraiter);
+      std::cout << "itIsRandomOrFR OK resultat: " << EstFR << '\n';
+      EstDigramFR = itIsRandomOrFrDigramm (subTextDigramATraiter);
+      std::cout << "itIsRandomOrFrDigramm OK resultat: " << EstDigramFR << '\n';
 
-      if (EstFR) {
+      if (EstFR && EstDigramFR) {
         nb_fr++; // ce shift semble corresponde a du francais
+        std::cout << "--> EstFR && EstDigramFR" << " nb_fr++: " << nb_fr << " saut: " << saut << '\n';
       }
     }
 
@@ -69,7 +77,7 @@ int main( int argc, char** argv )
 
       std::vector<char> cle( saut );
 
-      for (int lettreCle = 0; lettreCle < saut; lettreCle++)
+      for (unsigned int lettreCle = 0; lettreCle < saut; lettreCle++)
       // On cherche donc la bonne cle en testant les 26 lettre de A a Z
       // qui maximise la coincidence mutuelle avec indiceFR
       {
@@ -96,7 +104,7 @@ int main( int argc, char** argv )
          for ( int lettreTester = 0; lettreTester < 26; lettreTester++ )
          {
            float differanceFrequanceMutuelTest = 0;
-           for (int valeurTest = 0; valeurTest < 26; valeurTest++)
+           for (unsigned int valeurTest = 0; valeurTest < 26; valeurTest++)
            {
              // pour chaque frequance des lettre en francais calcule la diffence a la frequance
              // avec la lettre tester
@@ -123,7 +131,7 @@ int main( int argc, char** argv )
 
 
       // ######## Affiche la clé
-      for ( int clePosition = 0; clePosition < saut; clePosition++ )
+      for (unsigned int clePosition = 0; clePosition < saut; clePosition++ )
       {
         cout << "--> la " << clePosition << " eme lettre de la cle = " << cle[clePosition] << endl;
       }

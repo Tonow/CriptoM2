@@ -13,10 +13,28 @@ extern float freqLettresFr[26];
 extern float freqDigrammesFr[676];
 
 /**
+ * Must be called before using frequencies services.
+ *
+ * @param dig_fname the file name containing the frequencies of
+ * digrams (not necessarily normalized)
+ *
+ * @return 0 if everything went well.
+ */
+int computeDigrammesFr( const std::string & fname );
+
+/**
 * @param s string : une chaîne de caractères chiffrée (A-Z).
 * @return freqLettre vector : la fréquence des lettres 'A' à 'Z' (0='A', 25='Z').
 */
 std::vector<float> frequencies( const std::string & s );
+
+/**
+* @param s string : une chaîne de caractères chiffrée (A-Z).
+* @return freqDigram vector : la fréquence des digrammes du texte
+*  'A' à 'Z' (0='A', 25='Z').
+ */
+std::vector<float> frequenciesDigrams(const std::string & s);
+
 
 /**
 * @param frequences vector<float> ensemble de frequence d'apparition des lettre
@@ -25,6 +43,14 @@ std::vector<float> frequencies( const std::string & s );
 * @return indice float  indice de coincidence
 */
 float indiceDeCoincidence( std::vector<float> frequences , int size);
+
+/**
+* @param frequences vector<float> ensemble de frequence d'apparition des lettre
+*                                 du chiffre
+* @return indice float  indice de coincidence
+*/
+float indiceDeCoincidenceSommeFreqCarre( std::vector<float> frequences);
+
 
 /**
  * Must be called before using frequencies services.

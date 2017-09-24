@@ -12,6 +12,8 @@ std::string subtext( const std::string & s, int every, int shift );
 // Extract digrams starting at shift and every every.
 std::string subtext2( const std::string & s, int every, int shift );
 
+std::string subtextDigram( const std::string & s, int every, int shift );
+
 /**
    Le clair en minuscule.
    La clé est écrite en majuscule ("ADEF..DB").
@@ -57,3 +59,13 @@ float coincidenceMutuelle2( const std::vector<float> & f1,
 *ce derniere est plus proche du frncais que du random
 */
 bool itIsRandomOrFR ( const std::string & s );
+
+
+/*
+* @param s string le texte d'entrer
+* @return bool vrais cela est plus proche du francais que du random
+*
+*la fonction prend un texte calcule sont indice de coincidence avec des digrammes
+*et test si ce derniere est plus proche du francais que du random
+*/
+bool itIsRandomOrFrDigramm ( const std::string & s );
